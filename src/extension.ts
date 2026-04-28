@@ -30,10 +30,12 @@ export function activate(context: vscode.ExtensionContext) {
             "**/mock_*.go"
         ]);
 
-        // Normalize and filter out mock files
+        // Normalize and filter out mock files and the current cursor location
         const filtered = locations.filter(location => {
             const normalizedPath = location.uri.fsPath.replace(/\\/g, '/');
-            return !patterns.some(pattern => minimatch(normalizedPath, pattern));
+            if (patterns.some(pattern => minimatch(normalizedPath, pattern))) return false;
+            if (location.uri.toString() === uri.toString() && location.range.contains(position)) return false;
+            return true;
         });
 
         if (filtered.length === 0) {

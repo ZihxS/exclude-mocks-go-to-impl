@@ -50,10 +50,14 @@ function activate(context) {
             "**/mocks/**/*.go",
             "**/mock_*.go"
         ]);
-        // Normalize and filter out mock files
+        // Normalize and filter out mock files and the current cursor location
         const filtered = locations.filter(location => {
             const normalizedPath = location.uri.fsPath.replace(/\\/g, '/');
-            return !patterns.some(pattern => (0, minimatch_1.default)(normalizedPath, pattern));
+            if (patterns.some(pattern => (0, minimatch_1.default)(normalizedPath, pattern)))
+                return false;
+            if (location.uri.toString() === uri.toString() && location.range.contains(position))
+                return false;
+            return true;
         });
         if (filtered.length === 0) {
             vscode.window.showInformationMessage('No non-mock implementations found.');

@@ -3,7 +3,7 @@
   "displayName": "Exclude Mocks in Go to Implementation",
   "icon": "media/icon.png",
   "description": "Excludes mock files when using Go to Implementation in VS Code for Go projects.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "ZihxS",
   "engines": {
     "vscode": "^1.60.0"
